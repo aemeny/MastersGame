@@ -8,7 +8,10 @@ Shader "Unlit/WaterfallShader"
         _FBMOctaves ("FBM Octaves", Int) = 5 
 
         [Space(20)][Header(Water Properties)][Space] 
+        _WaterColour("Water Colour", Color) = (0, 0.329, 0.466, 1)
         _FlowSpeed ("Flow Speed", Float) = 0.5
+        _FoamLowCutoff ("Foam Low Cut Off", Range(0, 0.7)) = 0.5
+        _FoamHighCutoff ("Foam High Cut Off", Range(0, 1.5)) = 0.9
     }
     SubShader
     {
@@ -44,6 +47,10 @@ Shader "Unlit/WaterfallShader"
             float _NoiseScale;
             float _FlowSpeed;
             int _FBMOctaves;
+            float _FoamLowCutoff;
+            float _FoamHighCutoff;
+
+            float4 _WaterColour;
 
             // generates fractal brownian motion noise
             float fbm(float2 uv)
@@ -87,9 +94,9 @@ Shader "Unlit/WaterfallShader"
                 float textureOut = fbm(worldUV);
 
                 float3 dotResult = dot(i.normal + textureOut, float3(0,1,0));
-                float3 shine = step(0.4, dotResult) * step(dotResult, 0.9);
+                float3 shine = step(_FoamLowCutoff, dotResult) * step(dotResult, _FoamHighCutoff);
 
-                fixed4 finalCol = float4(shine, 1);
+                fixed4 finalCol = _WaterColour + float4(shine, 1);
 
                 // Apply fog
                 UNITY_APPLY_FOG(i.fogCoord, finalCol);
