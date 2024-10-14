@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyData", menuName = "ScriptableObject/NPCs/EnemyData")]
-public class GenericEnemyData : ScriptableObject 
+public class GenericEnemy :  MonoBehaviour
 {
     //TODO use create instance
 
     [Header("Equipment")]
     [SerializeField] public GenericWeaponTypeObject _weaponType;
+    [SerializeField] public List<WeaponTraitsEnum> _currentEnemyTraits;
 
     [Header("EnemyType")]
     [SerializeField] public GenericEnemyTypeObject _enemyType;
@@ -22,12 +22,12 @@ public class GenericEnemyData : ScriptableObject
     */
     [SerializeField] private int totalHealth = 0;
     [SerializeField] private int totalArmour = 0; // Armour is the amount of damage done to one piece of health. Potentially useful for bosses? Could be useless
-    [SerializeField] private int intialMovementSpeed = 0;  // Movement speed of the enemy
+    [SerializeField] private int initialMovementSpeed = 0;  // Movement speed of the enemy
     [SerializeField] private int totalMana = 0; // Total mana of the enemy. 
     [SerializeField] private int totalManaRecharge = 0;  //Specific spell cost handled purely by weapon?
-    [SerializeField] private int intialCastSpeed = 0; // Though primarily decided by weaponType, this could also be tweaked by type of enemy caster
-    [SerializeField] private int intialDamage = 0; // Though primarily decided by weaponType, this could also be tweaked by type of enemy caster (Some enemies coat their weapons in mana)
-    [SerializeField] private int intialAttackSpeed = 0;
+    [SerializeField] private int initialCastSpeed = 0; // Though primarily decided by weaponType, this could also be tweaked by type of enemy caster
+    [SerializeField] private int initialDamage = 0; // Though primarily decided by weaponType, this could also be tweaked by type of enemy caster (Some enemies coat their weapons in mana)
+    [SerializeField] private int initialAttackSpeed = 0;
 
     [Header("Changable Stat Values")]
     /* 
@@ -47,31 +47,41 @@ public class GenericEnemyData : ScriptableObject
 
     // This scriptable object is created whenever a new enemy is needed.
     // Corrupted enemies can increase health, damage or other stats?
-    public void Init(GenericWeaponTypeObject weaponType, GenericEnemyTypeObject enemyType) 
+    // Enemyhandler creates an enemy prefab with this script on, then passes in the weapon and enemytype scriptable(?) objects?
+    
+    public void InitEnemy(GenericWeaponTypeObject weaponType, GenericEnemyTypeObject enemyType, int localDifficulty) 
     {
         this._weaponType = weaponType;
         this._enemyType = enemyType;
 
+        InitStats();
+        InitTraits();
         
-        //TODO get any weapon based stat adjustments and apply them to the base enemy stats
-        //TODO in enemyType SO (and weaponType) create a getEnemyStat(Func<string, int> getStatMethod) that gets a specific stat depending on the given method name
+    }
+
+    private void InitStats() 
+    {
         totalHealth =           _enemyType._getHealth();
         totalArmour =           _enemyType._getArmour();
-        intialMovementSpeed =   (int)(_enemyType._getMovementSpeed() * 
+        initialMovementSpeed =   (int)(_enemyType._getMovementSpeed() * 
                                 _weaponType._getMovementSpeedAdjustment());
 
         totalMana =             (int)(_enemyType._getMana() * 
                                 _weaponType._getManaAdjustment());
         totalManaRecharge =     (int)(_enemyType._getManaRecharge() * 
                                 _weaponType._getManaRechargeAdjustment());
-        _currentCastSpeed =     (int)(_enemyType._getCastSpeed() * 
+        initialCastSpeed =     (int)(_enemyType._getCastSpeed() * 
                                 _weaponType._getCastSpeedAdjustment());
 
-        _currentDamage =        _weaponType._getDamage();
-        _currentAttackSpeed =   (int)(_enemyType._getAttackSpeed() *
+        initialDamage =        _weaponType._getDamage();
+        initialAttackSpeed =   (int)(_enemyType._getAttackSpeed() *
                                 _weaponType._getAttackSpeedAdjustment());
     }
 
+    private void InitTraits() 
+    {
+        //TODO choose a set of traits based on local difficulty enemy type (also is influenced by weapon type, as that is where we are gaining the list to pull from)
+    }
     //EXTRA THOUGHTS
 
     // Potentially enemies can drop their weapons for the player?

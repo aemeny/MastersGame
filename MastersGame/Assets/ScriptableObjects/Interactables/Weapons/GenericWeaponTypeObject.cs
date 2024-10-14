@@ -9,17 +9,20 @@ public class GenericWeaponTypeObject : ScriptableObject
     // An exception to this is damage on hit, which is purely calculated by the weapon. 
     [SerializeField] private int damage = 0; 
     [SerializeField] private float attackSpeedModifier = 0;
-    [SerializeField] private float movementSpeedModifier = 0;  //This stat will probably be only used for casters or heavy weapon users?
+    [SerializeField] private float movementSpeedModifier = 0;  // This stat will probably be only used for casters or heavy weapon users?
     [SerializeField] private float manaModifier = 0; 
     [SerializeField] private float manaRechargeModifier = 0;  
     [SerializeField] private float castSpeedModifier = 0; 
-    private WeaponSubtypeEnum weaponSubtype; //Dictates the weapons subtype. Can't currently think of a use.
+    private WeaponSubtypeEnum weaponSubtype; // Dictates the weapons subtype. Can't currently think of a use.
+    private Dictionary<int, WeaponTraitsEnum> weaponTraits; //List of all possible traits for this type of weapon (the int is their rank)
 
     //[SerializeField] private Sprite weaponSprite;
     
     // Using a dictionary to make the code more readable as the performance decrease is negligable at this size.
     // TODO create dictionaries in generic enemyHandler class(?) that store different weapon type stats. These could be loaded in via Json?
-    public void Init(Dictionary<EntityStatEnum, float> weaponTypeStats, WeaponSubtypeEnum weaponSubtype)
+
+    //Takes in a set of stats for the weapon type (eg: stats for a dagger), that weapon's subtype (mostly for debug purposes), and the possible traits for a weapon of that type.
+    public void Init(Dictionary<EntityStatEnum, float> weaponTypeStats, WeaponSubtypeEnum weaponSubtype, Dictionary<int, WeaponTraitsEnum> weaponTraits)
     {
         damage                  = (int)weaponTypeStats[EntityStatEnum.DAMAGE];
         attackSpeedModifier     = weaponTypeStats[EntityStatEnum.ATTACK_SPEED];
@@ -31,19 +34,7 @@ public class GenericWeaponTypeObject : ScriptableObject
         castSpeedModifier       = weaponTypeStats[EntityStatEnum.CAST_SPEED];
 
         this.weaponSubtype      = weaponSubtype;
-    }
-
-    // These traits are ones the enemy can utilize. For example, a basic enemy may unknowingly use mana to enhance their blade.
-    private void InitEnemyTraits () {
-        // Could also do these with scriptable objects
-        // Would make randomization easier, and enable simplistic spell casting.
-    }
-
-    // Whilst the stats and existing traits remain the same, the player can unlock different traits from the weapon.
-    // These player traits will be calculated upon the enemy dying and this SO having to be put on a dropped item prefab(?)
-    public void InitPlayerTraits () 
-    {
-
+        this.weaponTraits       = weaponTraits;
     }
 
     public int _getDamage() { return this.damage; }
@@ -53,4 +44,5 @@ public class GenericWeaponTypeObject : ScriptableObject
     public float _getManaRechargeAdjustment() { return this.manaRechargeModifier; }
     public float _getCastSpeedAdjustment() { return this.castSpeedModifier; }
     public WeaponSubtypeEnum _getWeaponSubType() { return this.weaponSubtype; }
+    public Dictionary<int, WeaponTraitsEnum> _getWeaponPossibleTraits() { return this.weaponTraits; }
 }
