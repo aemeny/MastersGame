@@ -36,6 +36,6 @@ public class PlayerController : MonoBehaviour
 
         transform.Translate(moveDir.x *  moveSpeed * Time.deltaTime, 0, moveDir.z * moveSpeed * Time.deltaTime);
 
-        Debug.Log(moveDir);
+        Debug.Log(rb.velocity);
     }
 }
