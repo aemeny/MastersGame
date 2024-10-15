@@ -84,15 +84,40 @@ public class GenericEnemy :  MonoBehaviour
     }
     //EXTRA THOUGHTS
 
-    // Potentially enemies can drop their weapons for the player?
+// Potentially enemies can drop their weapons for the player?
 
-    // All enemies use mana, it's just how. Some coat their weapons with it, some can perform skills. This is determined by type of enemy? 
+// All enemies use mana, it's just how. Some coat their weapons with it, some can perform skills. This is determined by type of enemy? 
 
-    // Default goblins coat their weapons in mana, so can't use spells, unless given more mana by a caster enemy?
+// Default goblins coat their weapons in mana, so can't use spells, unless given more mana by a caster enemy?
 
-    // Enemy type determines what weapon type it can use
+// Enemy type determines what weapon type it can use
 
-    // Have a method for onKill to store damage done *Could calculate it accurately taking armour into account?
-    
+// Have a method for onKill to store damage done *Could calculate it accurately taking armour into account?
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * generic weapon
+- polearm
+- shortblade
+- heavy_blunt
+
+Have a modifier for each weapon (Tier system?) that affects damage and traits
+
+
+
+generic enemy
+- Horde
+- Lancer
+- Tank
+
+- have enum for enemy type
+
+2 dictionaries with the enum and values
+Eg enum for enemy type, then a dict(?) of the stats
+ */
+
 }
 
