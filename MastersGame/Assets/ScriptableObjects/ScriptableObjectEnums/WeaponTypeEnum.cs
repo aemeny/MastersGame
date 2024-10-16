@@ -1,4 +1,4 @@
-public enum WeaponSubtypeEnum
+public enum WeaponTypeEnum
 {
     SHORTBLADE, //Dagger
     POLEARM, //Pikes, staves, spears

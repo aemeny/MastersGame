@@ -119,5 +119,9 @@ generic enemy
 Eg enum for enemy type, then a dict(?) of the stats
  */
 
+ //On construction, pass in a dict (in an SO?) with possible weapons, but don't store it. (Do this with stats too? And AI?)
+ // use objectYouCreate.AddComponent<ClassName>(); to add specific AI script depending on type?
+    // Use interface to enforce specific AI behaviour?
+ // Animation based on both weapon type and it's subtype
 }
 

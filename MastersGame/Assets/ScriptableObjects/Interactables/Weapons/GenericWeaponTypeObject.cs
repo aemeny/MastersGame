@@ -13,7 +13,7 @@ public class GenericWeaponTypeObject : ScriptableObject
     [SerializeField] private float manaModifier = 0; 
     [SerializeField] private float manaRechargeModifier = 0;  
     [SerializeField] private float castSpeedModifier = 0; 
-    private WeaponSubtypeEnum weaponSubtype; // Dictates the weapons subtype. Can't currently think of a use.
+    private WeaponTypeEnum weaponType; // Dictates the weapons type. Can't currently think of a use.
     private Dictionary<int, WeaponTraitsEnum> weaponTraits; //List of all possible traits for this type of weapon (the int is their rank)
 
     //[SerializeField] private Sprite weaponSprite;
@@ -21,8 +21,8 @@ public class GenericWeaponTypeObject : ScriptableObject
     // Using a dictionary to make the code more readable as the performance decrease is negligable at this size.
     // TODO create dictionaries in generic enemyHandler class(?) that store different weapon type stats. These could be loaded in via Json?
 
-    //Takes in a set of stats for the weapon type (eg: stats for a dagger), that weapon's subtype (mostly for debug purposes), and the possible traits for a weapon of that type.
-    public void Init(Dictionary<EntityStatEnum, float> weaponTypeStats, WeaponSubtypeEnum weaponSubtype, Dictionary<int, WeaponTraitsEnum> weaponTraits)
+    //Takes in a set of stats for the weapon type (eg: stats for a dagger), that weapon's type (mostly for debug purposes), and the possible traits for a weapon of that type.
+    public void Init(Dictionary<EntityStatEnum, float> weaponTypeStats, WeaponTypeEnum weaponType, Dictionary<int, WeaponTraitsEnum> weaponTraits)
     {
         damage                  = (int)weaponTypeStats[EntityStatEnum.DAMAGE];
         attackSpeedModifier     = weaponTypeStats[EntityStatEnum.ATTACK_SPEED];
@@ -33,7 +33,7 @@ public class GenericWeaponTypeObject : ScriptableObject
         manaRechargeModifier    = weaponTypeStats[EntityStatEnum.MANA_RECHARGE];
         castSpeedModifier       = weaponTypeStats[EntityStatEnum.CAST_SPEED];
 
-        this.weaponSubtype      = weaponSubtype;
+        this.weaponType      = weaponType;
         this.weaponTraits       = weaponTraits;
     }
 
@@ -43,6 +43,6 @@ public class GenericWeaponTypeObject : ScriptableObject
     public float _getManaAdjustment() { return this.manaModifier; }
     public float _getManaRechargeAdjustment() { return this.manaRechargeModifier; }
     public float _getCastSpeedAdjustment() { return this.castSpeedModifier; }
-    public WeaponSubtypeEnum _getWeaponSubType() { return this.weaponSubtype; }
+    public WeaponTypeEnum _getWeaponType() { return this.weaponType; }
     public Dictionary<int, WeaponTraitsEnum> _getWeaponPossibleTraits() { return this.weaponTraits; }
 }
